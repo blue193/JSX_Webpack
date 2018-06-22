@@ -1,6 +1,21 @@
 import React from 'react';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      username: 'HALA'
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(e) {
+    this.setState({
+      username: e.target.value
+    })
+  }
    render() {
       return (
          <div>
@@ -11,9 +26,43 @@ class App extends React.Component {
                       text={comment.text}
                       author={comment.author}
               />
-         </div>
+              <HelloUser name="HLA"/>
+         </div> 
       );
    }
+}
+class HelloUser extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+        username: "HALA"
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(e) {
+    this.setState({
+        username: e.target.value
+    })
+  }
+  render() {
+    return (
+      <div>
+        Props example; 
+        Name Props = <strong>{this.props.name}</strong>
+        <h4>Hello {this.state.username}</h4>
+        <br/>
+        change name:
+        <input 
+            type="text"
+            value={this.state.username}
+            onChange={this.handleChange}
+        />
+      </div>
+    )
+  }
 }
 
 class Welcome extends React.Component {
