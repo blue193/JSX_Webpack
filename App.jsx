@@ -1,5 +1,35 @@
 import React from 'react';
 
+const comment = {
+  date: new Date(),
+  text: 'I hope you enjoy learning React!',
+  author: {
+    name: "Hi,Jimmy",
+    avatarUrl: "http://placekitten.com/g/64/64",
+  }
+};
+
+function formatDate(date) {
+  return date.toLocaleDateString();
+}
+
+function Comment(props) {
+  return (
+      <div className="Comment">
+        <div className="UserInfo">
+          <img className="Avatar" src={props.author.avatarUrl} alt={props.author.name} />
+          <div className="UserInfo-name"> {props.author.name} </div>
+        </div>
+        <div className="Comment-text">
+          {props.text}
+        </div>
+        <div className="Comment-date">
+          {formatDate(props.date)}
+        </div>
+      </div>
+  );
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -85,11 +115,20 @@ class Friends extends React.Component {
       name: 'Alxe',
       friends: ['Migel', 'Angel', 'Lorax', 'Tom']
     }
+
+    this.addFriend = this.addFriend.bind(this);
+  }
+
+  addFriend(friend) {
+    this.setState((state) => ({
+      friends: state.friends.concat([friend])
+    }))
   }
   render() {
     return (
       <div>
         <h3>Name: {this.state.name}</h3>
+        <AddFriend addNew={this.addFriend} />
         <Friend names={this.state.friends} />
       </div>
     );
@@ -108,34 +147,44 @@ class Friend extends React.Component {
     )
   }
 }
-const comment = {
-  date: new Date(),
-  text: 'I hope you enjoy learning React!',
-  author: {
-    name: "Hi,Jimmy",
-    avatarUrl: "http://placekitten.com/g/64/64",
+
+class AddFriend extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      newFriend: ''
+    }
+
+    this.updateNewFriend = this.updateNewFriend.bind(this)
+    this.handleAddNew = this.handleAddNew.bind(this)
   }
-};
 
-function formatDate(date) {
-  return date.toLocaleDateString();
-}
+  updateNewFriend(e) {
+    this.setState({
+      newFriend: e.target.value
+    })
+  }
 
-function Comment(props) {
-  return (
-      <div className="Comment">
-        <div className="UserInfo">
-          <img className="Avatar" src={props.author.avatarUrl} alt={props.author.name} />
-          <div className="UserInfo-name"> {props.author.name} </div>
-        </div>
-        <div className="Comment-text">
-          {props.text}
-        </div>
-        <div className="Comment-date">
-          {formatDate(props.date)}
-        </div>
+  handleAddNew() {
+    this.props.addNew(this.state.newFriend)
+    this.setState({
+      newFriend:''
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <input
+          type="text"
+          value={this.state.newFriend}
+          onChange={this.updateNewFriend}
+        />
+        <button onClick={this.handleAddNew}>Add Friend</button>
       </div>
-  );
+    )
+  }
 }
 
 App.defaultProps = {
