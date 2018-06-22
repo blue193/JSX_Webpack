@@ -16,21 +16,25 @@ class App extends React.Component {
       username: e.target.value
     })
   }
-   render() {
-      return (
-         <div>
-             <h1>{this.props.headerProps}</h1>
-             <h1>{this.props.contentProps}</h1>
-             <Welcome name="sara" />
-             <Comment date={comment.date}
-                      text={comment.text}
-                      author={comment.author}
-              />
-              <HelloUser name="HLA"/>
-         </div> 
-      );
-   }
+ render() {
+    return (
+       <div>
+           <h1>{this.props.headerProps}</h1>
+           <h1>{this.props.contentProps}</h1>
+           <Welcome name="sara" />
+           <br/>
+           Function Split <br/>
+           <Comment date={comment.date}
+                    text={comment.text}
+                    author={comment.author}
+            />
+            <HelloUser name="HLA"/>
+            <Friends />
+       </div> 
+    );
+ }
 }
+
 class HelloUser extends React.Component {
   constructor(props) {
     super(props)
@@ -73,6 +77,37 @@ class Welcome extends React.Component {
   }
 }
 
+class Friends extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state  = {
+      name: 'Alxe',
+      friends: ['Migel', 'Angel', 'Lorax', 'Tom']
+    }
+  }
+  render() {
+    return (
+      <div>
+        <h3>Name: {this.state.name}</h3>
+        <Friend names={this.state.friends} />
+      </div>
+    );
+  }
+}
+
+class Friend extends React.Component {
+  render() {
+    return (
+      <div>
+        <h4>Friends</h4>
+          <ul>
+            {this.props.names.map((elem) => <li>{elem}</li>)}
+          </ul>
+      </div>
+    )
+  }
+}
 const comment = {
   date: new Date(),
   text: 'I hope you enjoy learning React!',
